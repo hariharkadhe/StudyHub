@@ -1,0 +1,42 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Function to check if user is logged in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Function to check if user is an admin
+    function isAdmin() {
+      return isAuthenticated() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      // Users can read/write their own profiles. Admins can read all.
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update, delete: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+    }
+
+    // Materials Collection
+    match /materials/{materialId} {
+      // Anyone (including guests) can view materials
+      allow read: if true;
+      
+      // Anyone logged in can upload
+      allow create: if isAuthenticated() 
+                    && request.resource.data.uploadedById == request.auth.uid;
+      
+      // Allow updates for likes and downloads
+      // Likes can only be updated by authenticated users
+      allow update: if isAuthenticated() 
+                    && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes', 'downloads']) 
+                    || isAdmin());
+      
+      // Only uploader or admin can delete
+      allow delete: if isAuthenticated() && (resource.data.uploadedById == request.auth.uid || isAdmin());
+    }
+  }
+}

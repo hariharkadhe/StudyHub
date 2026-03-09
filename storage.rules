@@ -1,0 +1,23 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Function to check if user is logged in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    match /materials/{userId}/{fileName} {
+      // Anyone (including guests) can read/download materials
+      allow read: if true;
+      
+      // Users can only upload to their own folder path
+      allow create: if isAuthenticated() 
+                    && request.auth.uid == userId
+                    && request.resource.size < 10 * 1024 * 1024; // 10MB limit
+      
+      // Only uploader or admin can delete their files
+      allow delete: if isAuthenticated() && request.auth.uid == userId;
+    }
+  }
+}
