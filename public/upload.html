@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Material Sharing - Upload</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>Study Hub</h3>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="upload.html" class="active"><i class="fas fa-cloud-upload-alt"></i> Upload</a></li>
+                <li id="adminNav" class="hidden"><a href="admin.html"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+                </li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Upload Study Material</h2>
+                <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+            </header>
+
+            <div style="display: flex; justify-content: center;">
+                <form id="uploadForm" class="upload-form" style="width: 100%;">
+                    <div class="form-group">
+                        <label for="materialTitle">Title *</label>
+                        <input type="text" id="materialTitle" class="form-control" required
+                            placeholder="e.g. Chapter 1: Sorting Algorithms">
+                    </div>
+
+                    <div style="display: flex; gap: 1rem;">
+                        <div class="form-group" style="flex: 1;">
+                            <label for="materialSubject">Subject *</label>
+                            <select id="materialSubject" class="form-control" required>
+                                <option value="" disabled selected>Select Subject</option>
+                                <option value="Java">Java</option>
+                                <option value="AI">AI/ML</option>
+                                <option value="DBMS">DBMS</option>
+                                <option value="Cybersecurity">Cybersecurity</option>
+                                <option value="OS">Operating Systems</option>
+                                <option value="Other">Other (Type below)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label for="materialSemester">Semester *</label>
+                            <select id="materialSemester" class="form-control" required>
+                                <option value="" disabled selected>Select Semester</option>
+                                <option value="1">Semester 1</option>
+                                <option value="2">Semester 2</option>
+                                <option value="3">Semester 3</option>
+                                <option value="4">Semester 4</option>
+                                <option value="5">Semester 5</option>
+                                <option value="6">Semester 6</option>
+                                <option value="7">Semester 7</option>
+                                <option value="8">Semester 8</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="manualSubjectGroup" class="form-group hidden">
+                        <label for="manualSubject">Enter Subject Name *</label>
+                        <input type="text" id="manualSubject" class="form-control" placeholder="e.g. Data Structures">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="materialDesc">Description *</label>
+                        <textarea id="materialDesc" class="form-control" rows="4" required
+                            placeholder="Briefly describe the contents..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="materialFile">File (PDF or DOCX) *</label>
+                        <input type="file" id="materialFile" class="form-control" accept=".pdf,.doc,.docx" required>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div id="uploadProgressContainer" class="hidden mt-2 mb-2">
+                        <div
+                            style="width: 100%; background-color: var(--border-color); border-radius: 4px; height: 8px; overflow: hidden;">
+                            <div id="uploadProgressBar"
+                                style="width: 0%; height: 100%; background-color: var(--primary-color); transition: width 0.3s;">
+                            </div>
+                        </div>
+                        <p id="uploadStatusText" class="text-center mt-1"
+                            style="font-size: 0.85rem; color: var(--text-muted);">Uploading...</p>
+                    </div>
+
+                    <button type="submit" class="btn" id="uploadBtn">Upload Material</button>
+                    <div id="uploadMessage" class="text-center mt-2 hidden" style="padding: 1rem; border-radius: 8px;">
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Add Firebase Storage -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+    <script src="js/firebase.js"></script>
+    <script>
+        // Init Storage right away
+        const storage = firebase.storage();
+    </script>
+    <script>
+        // Diagnostic check
+        (async () => {
+            console.log("--- Firebase Diagnostic Check ---");
+            try {
+                // Test Auth
+                console.log("Auth Status:", auth ? "Initialized" : "FAILED");
+                // Test Firestore
+                const testDoc = await db.collection('materials').limit(1).get();
+                console.log("Firestore Access:", testDoc ? "Success" : "FAILED");
+                // Test Storage
+                const storageTest = firebase.storage().ref();
+                console.log("Storage Access:", storageTest ? "Initialized" : "FAILED");
+            } catch (err) {
+                console.warn("Diagnostic Error (Check if services are enabled in console):", err.message);
+            }
+        })();
+    </script>
+    <script src="js/upload.js"></script>
+</body>
+
+</html>

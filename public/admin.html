@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Material Sharing - Admin</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>Study Hub <span style="font-size: 0.8rem; color: var(--danger-color);">Admin</span></h3>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="upload.html"><i class="fas fa-cloud-upload-alt"></i> Upload</a></li>
+                <li id="adminNav" class="active"><a href="admin.html"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+                </li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h2>Admin Dashboard</h2>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span>System Administration</span>
+                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                </div>
+            </header>
+
+            <section class="dashboard-stats">
+                <div class="stat-card">
+                    <h3 id="statTotalUsers">0</h3>
+                    <p>Total Registered Users</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statTotalMaterials">0</h3>
+                    <p>Total Materials Uploaded</p>
+                </div>
+            </section>
+
+            <div style="margin-bottom: 1.5rem;">
+                <h2>Manage Content</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Review and remove inappropriate materials.</p>
+            </div>
+
+            <!-- Materials Grid -->
+            <div class="materials-grid" id="adminMaterialsContainer">
+                <p>Loading content for review...</p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
+    <script src="js/firebase.js"></script>
+    <script>
+        const storage = firebase.storage();
+    </script>
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
