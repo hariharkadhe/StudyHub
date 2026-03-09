@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Material Sharing - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>Study Hub</h3>
+            </div>
+            <ul class="nav-links">
+                <li><a href="dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="upload.html"><i class="fas fa-cloud-upload-alt"></i> Upload</a></li>
+                <li id="adminNav" class="hidden"><a href="admin.html"><i class="fas fa-shield-alt"></i> Admin Panel</a>
+                </li>
+                <li><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <header class="header">
+                <div class="search-bar">
+                    <input type="text" id="searchInput" class="form-control"
+                        placeholder="Search by title or subject...">
+                    <button class="btn" id="searchBtn"><i class="fas fa-search"></i></button>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <span id="welcomeMessage">Welcome, ...</span>
+                    <button class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></button>
+                </div>
+            </header>
+
+            <section class="dashboard-stats">
+                <div class="stat-card">
+                    <h3 id="statTotalMaterials">0</h3>
+                    <p>Total Materials</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statMyUploads">0</h3>
+                    <p>My Uploads</p>
+                </div>
+            </section>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                <h2>Recent Materials</h2>
+                <select id="categoryFilter" class="form-control" style="width: auto;">
+                    <option value="">All Categories</option>
+                    <!-- Categories will be loaded dynamically -->
+                </select>
+            </div>
+
+            <!-- Materials Grid -->
+            <div class="materials-grid" id="materialsContainer">
+                <!-- Dynamically Populated Cards -->
+                <p>Loading materials...</p>
+            </div>
+
+            <!-- Pagination Placeholder -->
+            <div id="paginationControls" class="text-center mt-2 hidden">
+                <button class="btn" id="loadMoreBtn" style="width: auto;">Load More</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
